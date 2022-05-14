@@ -36,7 +36,7 @@ public class Register {
             // Concatenate the timestamp to string to form unique timestamp
             test_data_username = Username + "_" + String.valueOf(timestamp.getTime());
         else
-             test_data_username = Username + "_" + String.valueOf(timestamp.getTime());
+             test_data_username = Username;
 
         // Type the generated username in the username field
         username_txt_box.sendKeys(test_data_username);
@@ -50,7 +50,7 @@ public class Register {
 
         // Find the Confirm password text box
          WebElement confirm_password_txt_box =
-         this.driver.findElement(By.id("password"));
+         this.driver.findElement(By.id("confirmPassword"));
 
         // Enter the Confirm Password Value
         confirm_password_txt_box.sendKeys(test_data_password);
@@ -64,7 +64,8 @@ public class Register {
 
 
         this.lastGeneratedUsername = test_data_username;
-
+       // System.out.println(this.driver.getCurrentUrl().endsWith("/login"));
+        Thread.sleep(4000);
         return this.driver.getCurrentUrl().endsWith("/login");
     }
 }
