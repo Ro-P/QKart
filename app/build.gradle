@@ -26,6 +26,7 @@ dependencies {
 }
 
 // Additional config for Crio workspace
+buildDir = '/tmp/external_build'
 
 task startScript(type:Exec) {
     commandLine '../selenium-run.sh'
@@ -36,3 +37,4 @@ run.dependsOn startScript
 test.dependsOn startScript
 
 mainClassName = 'QKART_SANITY_LOGIN.QkartSanity'
+mainClassName = 'QKART_SANITY_LOGIN.Module1.QkartSanity'
