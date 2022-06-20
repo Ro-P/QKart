@@ -609,7 +609,7 @@ public class QkartSanity {
         homePage.navigateToHome();
         status = homePage.verifyCartContents(expectedResult);
         takeScreenshot(driver, "Testcaseend", "Testcase9");
-        logStatus("Testcase9", "Verifying user logged in session", "PASS");
+        logStatus("Testcase9", "Verifying user logged in session",status ? "PASS" : "FAIL");
 
         return status;
     }
@@ -628,11 +628,11 @@ public class QkartSanity {
         //Click on Privacy Policy
         WebElement privacyPolicyLink = driver.findElement(By.xpath("//a[text()='Privacy policy']"));
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        
         privacyPolicyLink.click();
         String parentTab = driver.getCurrentUrl();
         if (parentTabbefore.equals(parentTab)) {
             status = true;
+            logStatus("Testcase10", "Verify the URL of Current Page is Home Page", status ? "PASS":"FAIL");
         }
         String parentWindow = driver.getWindowHandle();
        // privacyPolicyLink.click();
@@ -658,6 +658,9 @@ public class QkartSanity {
          parentTab = driver.getCurrentUrl();
         if (parentTabbefore.equals(parentTab)) {
             status = true;
+            logStatus("Testcase10", "Verify the URL of Current Page is Home Page",
+                    status ? "PASS" : "FAIL");
+
         }
 
          windowHandles = driver.getWindowHandles();
@@ -704,13 +707,17 @@ public class QkartSanity {
         email.sendKeys("criouser@gmail.com");
         WebElement message = driver.findElement(By.xpath("(//input[@name='email'])[3]"));
         message.sendKeys("Testing the contact us page");
-        WebElement contactNowButton = driver.findElement(By.xpath("//button[text()=' Contact Now']"));
+        WebElement contactNowButton =
+                driver.findElement(By.xpath("//button[text()=' Contact Now']"));
+       if(name.getText().equals("crio user")&&email.getText().equals("criouser@gmail.com")
+               && message.getText().equals("Testing the contact us page"))
+           status = true;
         contactNowButton.click();
         WebDriverWait wait = new WebDriverWait(driver,30);
         wait.until(ExpectedConditions.invisibilityOf(contactNowButton));
         // if(!contactNowButton.isDisplayed()){
         // status = true;
-        //             logStatus("Testcase11", "Checking the ContactUs content", status ? "PASS" : "FAIL");
+        logStatus("Testcase11", "Checking the ContactUs content", status ? "PASS" : "FAIL");
         // }
         return status;
     }
@@ -813,7 +820,7 @@ public class QkartSanity {
                         if (url.equalsIgnoreCase(
                                 "https://tamil.oneindia.com/common/corona/corona-virus-flip.html")) {
                             logStatus("TestCase12", "Test Case 12: Verify 2 Qkart and 1 Corona stats iframes are present",
-                                    "PASS");
+                                   status ? "PASS" : "FAIL");
                             status = true;
                         } else {
                          logStatus("TestCase12", "Test Case 12: Only 2 Qkart iframes are present",
@@ -843,7 +850,7 @@ public class QkartSanity {
 
         try {
             // Execute Test Case 1
-            // totalTests += 1;
+            totalTests += 1;
             status = TestCase01(driver);
             if (status) {
                 passedTests += 1;
@@ -938,7 +945,7 @@ public class QkartSanity {
             passedTests += 1;
             }
 
-              System.out.println("");
+              System.out.println(""); 
 
         //    // Execute Test Case 12
             totalTests += 1;
