@@ -37,4 +37,4 @@ run.dependsOn startScript
 test.dependsOn startScript
 
 mainClassName = 'QKART_SANITY_LOGIN.QkartSanity'
-mainClassName = 'QKART_SANITY_LOGIN.Module1.QkartSanity'
+//mainClassName = 'QKART_SANITY_LOGIN.QkartSanity'

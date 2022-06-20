@@ -1,4 +1,4 @@
-package QKART_SANITY_LOGIN.Module1;
+package QKART_SANITY_LOGIN;
 
 import java.util.List;
 
@@ -27,11 +27,21 @@ public class Checkout {
      */
     public Boolean addNewAddress(String addresString) {
         try {
+            // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 05: MILESTONE 4
             /*
              * Click on the "Add new address" button, enter the addressString in the address
              * text box and click on the "ADD" button to save the address
              */
-            return false;
+            WebElement addAddress = driver.findElement(By.id("add-new-btn"));
+            addAddress.click();
+            WebElement addressBox = driver.findElement(By.xpath("//textarea[1]"));
+            addressBox.click();
+            addressBox.clear();
+            addressBox.sendKeys(addresString);
+            
+            WebElement addButton = driver.findElement(By.xpath("//button[text()='Add']"));
+            addButton.click();
+            return true;
         } catch (Exception e) {
             System.out.println("Exception occurred while entering address: " + e.getMessage());
             return false;
@@ -44,10 +54,23 @@ public class Checkout {
      */
     public Boolean selectAddress(String addressToSelect) {
         try {
+            // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 05: MILESTONE 4
             /*
              * Iterate through all the address boxes to find the address box with matching
              * text, addressToSelect and click on it
              */
+            int i =1;
+            
+            List<WebElement> address = driver.findElements(By.xpath("//div[contains(@class,'address-item')]/div[1]//p[contains(@class,'css-yg30e6')]"));
+            for (WebElement webElement : address) {
+                if(webElement.getText().equalsIgnoreCase(addressToSelect)){
+                    String selectRadio = "(//input[@name='address'])["+i+"]";
+                  WebElement selectAddress = driver.findElement(By.xpath(selectRadio));
+                  selectAddress.click();
+                  return true;
+                }
+                i++;
+            }
             System.out.println("Unable to find the given address");
             return false;
         } catch (Exception e) {
@@ -62,7 +85,11 @@ public class Checkout {
      */
     public Boolean placeOrder() {
         try {
-            return false;
+            // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 05: MILESTONE 4
+            // Find the "PLACE ORDER" button and click on it
+            WebElement checkoutButton = driver.findElement(By.xpath("//button[text()='PLACE ORDER']"));
+            checkoutButton.click();
+            return true;
 
         } catch (Exception e) {
             System.out.println("Exception while clicking on PLACE ORDER: " + e.getMessage());
@@ -75,6 +102,11 @@ public class Checkout {
      */
     public Boolean verifyInsufficientBalanceMessage() {
         try {
+            // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 08: MILESTONE 7
+            WebElement alertMessage = driver.findElement(By.id("notistack-snackbar"));
+            if(alertMessage.getText().equalsIgnoreCase("You do not have enough balance in your wallet for this purchase")){
+                return true;
+            }
             return false;
         } catch (Exception e) {
             System.out.println("Exception while verifying insufficient balance message: " + e.getMessage());
