@@ -1,7 +1,7 @@
 package QKART_SANITY_LOGIN;
 
 import java.time.Duration;
-
+import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Login {
     RemoteWebDriver driver;
@@ -25,6 +27,8 @@ public class Login {
     }
 
     public Boolean PerformLogin(String Username, String Password) throws InterruptedException {
+        // WebDriverWait wait = new WebDriverWait(driver, 30);
+
         // Find the Username Text Box
         WebElement username_txt_box = this.driver.findElement(By.id("username"));
 
@@ -43,12 +47,20 @@ public class Login {
         // Find the Login Button
         WebElement login_button = driver.findElement(By.className("button"));
 
+
         // Click the login Button
         login_button.click();
 
         // SLEEP_STMT_13: Wait for Login to Complete
         // Wait for Login action to complete
-        Thread.sleep(5000);
+        // wait.until(ExpectedConditions.invisibilityOf(login_button));
+        // Thread.sleep(5000);
+        FluentWait<WebDriver> wait =
+                new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(50L))
+                        .pollingEvery(Duration.ofMillis(250)).ignoring(Exception.class);
+        wait.until(ExpectedConditions.invisibilityOf(login_button));
+
+
 
         return this.VerifyUserLoggedIn(Username);
     }
@@ -56,9 +68,12 @@ public class Login {
     public Boolean VerifyUserLoggedIn(String Username) {
         try {
             // Find the username label (present on the top right of the page)
-            WebElement username_label;
-            username_label = this.driver.findElement(By.className("username-text"));
+            // WebElement username_label;
+            // username_label = this.driver.findElement(By.className("username-text"));
+            // return username_label.getText().equals(Username);
+            WebElement username_label = this.driver.findElement(By.className("username-text"));
             return username_label.getText().equals(Username);
+
         } catch (Exception e) {
             return false;
         }
