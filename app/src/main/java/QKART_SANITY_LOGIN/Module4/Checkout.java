@@ -67,13 +67,13 @@ public class Checkout {
              * Iterate through all the address boxes to find the address box with matching
              * text, addressToSelect and click on it
              */
-            WebElement parentBox = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div[1]/div/div[1]"));
-            List<WebElement> allBoxes = parentBox.findElements(By.className("not-selected"));
+            WebElement parentBox = driver.findElement(By.xpath("(//div[@class='MuiBox-root css-0'])[1]"));
+            List<WebElement> allBoxes = parentBox.findElements(By.xpath("//div[contains(@class,'address-item')]//child::div[1]"));
 
             for (WebElement box : allBoxes) {
-                if (box.findElement(By.className("css-yg30e6")).getText().replaceAll(" ", "")
+                if (box.findElement(By.xpath("//p[contains(@class,'css-yg30e6')]")).getText().replaceAll(" ", "")
                         .equals(addressToSelect.replaceAll(" ", ""))) {
-                    box.findElement(By.tagName("input")).click();
+                    box.findElement(By.xpath("//span//input[@name='address']")).click();
                     return true;
                 }
             }
@@ -93,13 +93,13 @@ public class Checkout {
     public Boolean placeOrder() {
         try {
             // Find the "PLACE ORDER" button and click on it
-            List<WebElement> elements = driver.findElementsByClassName("css-177pwqq");
-            for (WebElement element : elements) {
-                if (element.getText().equals("PLACE ORDER")) {
-                    element.click();
+            WebElement elements = driver.findElement(By.xpath("//button[text()='PLACE ORDER']"));
+            //for (WebElement element : elements) {
+                if (elements.getText().equals("PLACE ORDER")) {
+                    elements.click();
                     return true;
                 }
-            }
+            //}
             return false;
 
         } catch (Exception e) {

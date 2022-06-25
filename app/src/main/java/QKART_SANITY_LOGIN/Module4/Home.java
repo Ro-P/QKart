@@ -48,13 +48,13 @@ public class Home {
         try {
             // Clear the contents of the search box and Enter the product name in the search
             // box
-            WebElement searchBox = driver.findElement(By.xpath("//input[@name='search'][1]"));
+            WebElement searchBox = driver.findElement(By.xpath("(//input[@name='search'])[1]"));
             searchBox.clear();
             searchBox.sendKeys(product);
 
             WebDriverWait wait = new WebDriverWait(driver,30);
-            wait.until(ExpectedConditions.or(ExpectedConditions.textToBePresentInElementLocated(By.className("css-yg30ev6"), product),
-            ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[3]/div[1]/div[2]/div/h4"))));
+            wait.until(ExpectedConditions.or(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(@class,'css-yg30e6')]")),
+            ExpectedConditions.presenceOfElementLocated(By.xpath("//h4[text()=' No products found ']"))));
             Thread.sleep(3000);
             return true;
         } catch (Exception e) {
@@ -90,7 +90,7 @@ public class Home {
         try {
             // Check the presence of "No products found" text in the web page. Assign status
             // = true if the element is *displayed* else set status = false
-            status = driver.findElementByXPath("//*[@id=\"root\"]/div/div/div[3]/div[1]/div[2]/div/h4").isDisplayed();
+            status = driver.findElementByXPath("//h4[text()=' No products found ']").isDisplayed();
             return status;
         } catch (Exception e) {
             return status;
@@ -216,13 +216,18 @@ public class Home {
             // Iterate through expectedCartContents and check if item with matching product
             // name is present in the cart
 
-            WebElement cartParent = driver.findElement(By.className("cart"));
-            List<WebElement> cartContents = cartParent.findElements(By.className("css-zgtx0t"));
+            WebElement cartParent = driver.findElement(By.xpath("//div[@class='cart MuiBox-root css-0']"));
+            List<WebElement> cartContents = cartParent.findElements(By.xpath("//div[contains(@class,'css-zgtx0t')]"));
 
             ArrayList<String> actualCartContents = new ArrayList<String>() {
             };
+            int i=1;
             for (WebElement cartItem : cartContents) {
-                actualCartContents.add(cartItem.findElement(By.className("css-1gjj37g")).getText().split("\n")[0]);
+
+                actualCartContents
+                        .add(cartItem.findElement(By.xpath("(//div[contains(@class,'css-1gjj37g')])["+i+"]"))
+                                .getText().split("\n")[0]);
+                i++;
             }
 
             for (String expected : expectedCartContents) {

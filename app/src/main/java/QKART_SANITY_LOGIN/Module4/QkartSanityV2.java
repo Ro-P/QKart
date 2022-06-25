@@ -178,7 +178,7 @@ public class QkartSanityV2 {
 
         // Search for product
         status = homePage.searchForProduct("Gesundheit");
-        if (status) {
+        if (!status) {
             logStatus("TestCase 3", "Test Case Failure. Invalid keyword returned results", "FAIL");
             return false;
         }
@@ -442,13 +442,17 @@ public class QkartSanityV2 {
 
         login.navigateToLoginPage();
         status = login.PerformLogin(lastGeneratedUserName, "abc@123");
-
+        Thread.sleep(3000);
+        homePage.navigateToHome();
+        Thread.sleep(3000);
         status = homePage.verifyCartContents(expectedResult);
 
-        logStatus("End TestCase", "Test Case 7: Verify that cart contents are persisted after logout: ",
+        logStatus("End TestCase",
+                "Test Case 7: Verify that cart contents are persisted after logout: ",
                 status ? "PASS" : "FAIL");
 
         homePage.PerformLogout();
+
         return status;
     }
 
@@ -771,7 +775,7 @@ public class QkartSanityV2 {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
         try {
-            // Execute Test Case 1
+           // Execute Test Case 1
             totalTests += 1;
             status = TestCase01(driver);
             if (status) {
@@ -834,7 +838,7 @@ public class QkartSanityV2 {
 
             System.out.println("");
 
-            // Execute Test Case 8
+           // Execute Test Case 8
             totalTests += 1;
             status = TestCase08(driver);
             if (status) {
