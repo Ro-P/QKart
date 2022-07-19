@@ -69,5 +69,6 @@ public class Register {
         this.lastGeneratedUsername = test_data_username;
 
         return this.driver.getCurrentUrl().endsWith("/login");
+        
     }
 }

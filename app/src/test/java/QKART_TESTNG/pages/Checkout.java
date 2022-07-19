@@ -1,5 +1,6 @@
 package QKART_TESTNG.pages;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -102,14 +103,17 @@ public class Checkout {
         try {
             WebElement alertMessage = driver.findElement(By.id("notistack-snackbar"));
             if (alertMessage.isDisplayed()) {
-                if (alertMessage.getText().equals("You do not have enough balance in your wallet for this purchase")) {
+                if (alertMessage.getText().equals(
+                        "You do not have enough balance in your wallet for this purchase")) {
                     return true;
                 }
             }
             return false;
         } catch (Exception e) {
-            System.out.println("Exception while verifying insufficient balance message: " + e.getMessage());
+            System.out.println(
+                    "Exception while verifying insufficient balance message: " + e.getMessage());
             return false;
         }
     }
+    
 }
